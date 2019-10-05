@@ -10,10 +10,10 @@ public class BlackJackApp {
 	private static Dealer dealer;
 	private static BlackJackApp app = new BlackJackApp();
 	private static Deck deck;
-	private Card c;
 
 	public static void main(String[] args) {
 		app.launch();
+
 
 	}
 
@@ -25,12 +25,19 @@ public class BlackJackApp {
 		deck.shuffle();
 		String name;
 
-		System.out.println("Enter name: ");
+		System.out.println("Enter name to play or enter \"quit\" ");
 		name = sc.nextLine();
-		player.setName(name);
+		if (name.equalsIgnoreCase("quit")) {
+			sc.close();
+			app.endGame();
+		} else {
+			player.setName(name);
 
-		dealCard(deck, player, dealer);
-		playersChoice(deck, player, dealer);
+			dealCard(deck, player, dealer);
+			if (dealer.getCardValue() <= 21) {
+				playersChoice(deck, player, dealer);
+			}
+		}
 
 	}
 
@@ -38,36 +45,39 @@ public class BlackJackApp {
 		Card dc = deck.dealCard();
 		Card c = deck.dealCard();
 		System.out.println("\n" + player.getName() + " has been given the card " + c);
-		
+		player.hand.add(c);
+
 		player.setCardValue((player.getCardValue() + c.getValue()));
-		if(player.getCardValue() > 21) {
+		if (player.getCardValue() > 21) {
+			System.out.println("Players hand " + player.hand);
+			System.out.println("Players value: " + player.getCardValue());
 			System.out.println("You got a bust!!! You lose.");
 			app.replay();
 		}
-		player.hand.add(c);
 		dealer.setCardValue((dealer.getCardValue() + dc.getValue()));
 
 		dealer.hand.add(dc);
-		if (dealer.hand.size() < 2) {
-			System.out.println("\nDealer gives himself a facedown card\n");
-		} else {
-			System.out.println("\nDealer added " + dc + " to his hand");
+		if (player.getCardValue() <= 21) {
+			if (dealer.getCardValue() > 21) {
+				System.out.println("Dealer added " + dc + " to his hand\n");
+				System.out.println("Dealers hand " + dealer.hand);
+				System.out.println("Dealers value: " + dealer.getCardValue());
+				System.out.println("Dealer got a bust. You win!");
+				app.replay();
+			}
+
+			else if (dealer.hand.size() < 2) {
+				System.out.println("\nDealer gives himself a facedown card\n");
+			} else {
+				System.out.println("Dealer added " + dc + " to his hand\n");
+			}
 		}
 
 	}
 
-	public void showAllHands(Player player, Dealer dealer) {
-		for (Card card : player.hand) {
-			System.out.println(player.getName() + "'s current hand: " + player.hand + "\nValue: " + player.getCardValue());
+	public void showPlayersHands(Player player) {
+		System.out.println(player.getName() + "'s current hand: " + player.hand + "\nValue: " + player.getCardValue());
 
-		}
-		for (int i = 0; i < dealer.hand.size(); i++) {
-			if (dealer.hand.size() == 1) {
-				System.out.println("\nDealer has a face down card ...");
-			} else {
-				System.out.println("\nDealer's current hand: " + dealer.hand);
-			}
-		}
 		app.playersChoice(deck, player, dealer);
 
 	}
@@ -81,7 +91,9 @@ public class BlackJackApp {
 		switch (playerChoice) {
 		case 1:
 			app.dealCard(deck, player, dealer);
-			app.showAllHands(player, dealer);
+			if (player.getCardValue() <= 21) {
+				app.showPlayersHands(player);
+			}
 			break;
 		case 2:
 			dealer.dealerAddsCards(dealer.hand, dealer, deck, player);
@@ -92,18 +104,19 @@ public class BlackJackApp {
 		if (player.getCardValue() == 21 && dealer.getCardValue() == 21) {
 			System.out.println("Dealer cards and your cards are both equal to 21...");
 			app.replay();
-		}
-		else if (dealer.getCardValue() == 21) {
+		} else if (dealer.getCardValue() == 21) {
+			System.out.println("You lose");
+			app.replay();
+		} else if (dealer.getCardValue() > player.getCardValue() && dealer.getCardValue() < 22) {
 			System.out.println("You lose");
 			app.replay();
 		}
-		else if (dealer.getCardValue() > player.getCardValue() && dealer.getCardValue() < 22) {
-			System.out.println("You lose");
-			app.replay();
-		}
-			
-		else if(player.getCardValue() > dealer.getCardValue() && player.getCardValue() < 22) {
+
+		else if (player.getCardValue() > dealer.getCardValue() && player.getCardValue() < 22) {
 			System.out.println("You win!");
+			app.replay();
+		} else if (dealer.getCardValue() == player.getCardValue()) {
+			System.out.println("It's a draw");
 			app.replay();
 		}
 
@@ -111,19 +124,18 @@ public class BlackJackApp {
 
 	public void replay() {
 		Scanner sc = new Scanner(System.in);
-		String replay;
-		System.out.println("Play again? (Y/N)");
-		replay = sc.next();
-		switch (replay) {
-		case "Y":
-		case "y":
-			app.launch();
-			break;
-		case "N":
-		case "n":
-			sc.close();
-			break;
+		String replay = "";
+		while (!replay.equalsIgnoreCase("C")) {
+			System.out.println("Press \"c\" to continue");
+			replay = sc.next();
+
 		}
+		app.launch();
+
+	}
+
+	public void endGame() {
+		System.out.println("Ending . . .");
 
 	}
 }
