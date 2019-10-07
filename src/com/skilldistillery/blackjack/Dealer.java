@@ -44,11 +44,12 @@ public class Dealer extends Participants {
 			dealer.setHand(c);
 			dealer.setCardValue((dealer.getCardValue() + c.getValue()));
 			System.out.println("Dealer drew a " + c);
+		}
 			if (dealer.getCardValue() > 21) {
 				System.out.println("Dealer has a hand of " + dealer.getHand());
 				System.out.println("Dealers value: " + dealer.getCardValue());
 				System.out.println("Dealer got a bust, you win!");
-				app.replay();
+				app.checkWinner(player, dealer);
 			} else {
 
 			System.out.println("Dealer has a hand of " + dealer.getHand());
@@ -57,7 +58,6 @@ public class Dealer extends Participants {
 			System.out.println("Dealers value: " + dealer.getCardValue());
 			app.checkWinner(player, dealer);
 			}
-		}
 
 	}
 
