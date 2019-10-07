@@ -5,22 +5,22 @@ import java.util.List;
 
 import com.skilldistillery.cards.Card;
 
-public abstract class Participants {
-	protected String name;
-	protected List<Card> hand = new ArrayList<>();
+public class Participants {
+	private List<Card> hand = new ArrayList<>();
 	private int cardValue;
 	
 	public Participants() {
 		
 	}
 
-	public String getName() {
-		return name;
+	public List<Card> getHand() {
+		return hand;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setHand(Card c) {
+		this.hand.add(c);
 	}
+
 
 	public int getCardValue() {
 		return cardValue;
