@@ -19,8 +19,6 @@ public class BlackJackApp {
 
 	public void launch() {
 		sc = new Scanner(System.in);
-		player = new Player();
-		dealer = new Dealer();
 		String name;
 
 		System.out.println("Enter name to play or enter \"quit\" ");
@@ -28,6 +26,8 @@ public class BlackJackApp {
 		if (name.equalsIgnoreCase("quit")) {
 			System.out.println("Ending . . .");
 		} else {
+			player = new Player();
+			dealer = new Dealer();
 			deck = new Deck();
 			deck.shuffle();
 			player.setName(name);
@@ -110,7 +110,6 @@ public class BlackJackApp {
 		case 2:
 			dealer.dealerAddsCards(dealer, deck, player);
 		}
-		sc.close();
 	}
 
 	public void checkWinner(Player player, Dealer dealer) {
