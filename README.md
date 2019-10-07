@@ -12,7 +12,7 @@
 
 ### Lessons Learned
 
-#### For an application such as this that has so many conditions on who wins, loses, or how to have the programs dealer decides what to do it becomes very complicated when using the "if" statements and I got very lost, specifically with the method that deals the player and the dealer cards. For every bug that popped up, I kept adding if statements to the method to try to fix things and it eventually just broke everything. I finally decided that it was time that I erased everything in that method and built it up again. Still, there is one bug I am still working on to get fixed when the game decides a winner. If the user tries to quit the game, the application will print out the users information and will break. But other than that, the program works!
+##### For an application such as this that has so many conditions on who wins, loses, or how to have the programs dealer decides what to do it becomes very complicated when using the "if" statements and I got very lost, specifically with the method that deals the player and the dealer cards. For every bug that popped up, I kept adding if statements to the method to try to fix things and it eventually just broke everything. I finally decided that it was time that I erased everything in that method and built it up again. Still, there is one bug I am still working on to get fixed when the game decides a winner. If the user tries to quit the game, the application will print out the users information and will break. But other than that, the program works!
 
 
 
